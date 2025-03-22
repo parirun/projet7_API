@@ -7,18 +7,17 @@ app = FastAPI()
 
 # Configuration CORS
 origins = [
-    "https://atria.run",          # Votre site en production
-    "http://77.37.125.198",            # Pour tester en local
-    "http://77.37.125.198:8000",
-    "http://127.0.0.1:8000"
+    "https://atria.run",  # Domaine autorisé
+    "http://localhost",    # Pour tests en local
+    "http://127.0.0.1:8000",
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,            # Autoriser les origines spécifiées
+    allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],               # Autoriser toutes les méthodes HTTP (GET, POST, etc.)
-    allow_headers=["*"],               # Autoriser tous les headers
+    allow_methods=["*"],  # Permet toutes les méthodes (POST, GET, etc.)
+    allow_headers=["*"],   # Permet tous les headers
 )
 
 # Configurer la connexion à la base de données MySQL
