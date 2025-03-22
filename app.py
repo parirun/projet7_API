@@ -22,7 +22,6 @@ class FeedbackInput(BaseModel):
     feedback: bool
 
 @app.post("/predict/")
-@app.post("/predict/")
 def predict(input: TextInput):
     inputs = tokenizer(input.text, return_tensors="pt", truncation=True)
     outputs = model(**inputs)
