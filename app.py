@@ -1,9 +1,25 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import Dict
 import mysql.connector
 
 app = FastAPI()
+
+# Configuration CORS
+origins = [
+    "https://atria.run",          # Votre site en production
+    "http://77.37.125.198",            # Pour tester en local
+    "http://77.37.125.198:8000",
+    "http://127.0.0.1:8000"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,            # Autoriser les origines spécifiées
+    allow_credentials=True,
+    allow_methods=["*"],               # Autoriser toutes les méthodes HTTP (GET, POST, etc.)
+    allow_headers=["*"],               # Autoriser tous les headers
+)
 
 # Configurer la connexion à la base de données MySQL
 db_config = {
