@@ -22,10 +22,13 @@ class FeedbackInput(BaseModel):
     feedback: bool
 
 @app.post("/predict/")
+@app.post("/predict/")
 def predict(input: TextInput):
-    # Ici, on suppose que votre modèle renvoie soit "Positif" soit "Négatif"
-    sentiment = "Positif"  # Exemples, à remplacer par votre modèle réel
-    return {"sentiment": sentiment}
+    inputs = tokenizer(input.text, return_tensors="pt", truncation=True)
+    outputs = model(**inputs)
+    prediction = torch.softmax(outputs.logits, dim=1)
+    sentiment = "Positif" if torch.argmax(prediction) == 1 else "Négatif"
+    return {"sentiment": sentiment, "score": prediction.tolist()}
 
 @app.post("/feedback/")
 def save_feedback(input: FeedbackInput):
